@@ -42,8 +42,7 @@ namespace Prophet
         static int tickcounter = 0;
         static List<string> PropheciesList = new List<string>();
 
-
-
+        
 
         //Prophet
         static bool started = false;
