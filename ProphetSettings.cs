@@ -1,6 +1,5 @@
 using System.Windows.Forms;
 using System.Collections.Generic;
-using Prophet.Stashie;
 using ExileCore.Shared.Interfaces;
 using ExileCore.Shared.Nodes;
 using ExileCore.Shared.Attributes;
@@ -9,10 +8,7 @@ namespace Prophet
 {
     public class ProphetSettings : ISettings
     {
-        public Dictionary<string, ListIndexNode> CustomFilterOptions = new Dictionary<string, ListIndexNode>();
-        public List<string> AllStashNames = new List<string>();
-
-
+        
         [Menu("General", 101)]
         public EmptyNode General { get; set; } = new EmptyNode();
 

@@ -50,9 +50,6 @@ namespace Prophet
         static bool prophetstarted = false;
 
 
-
-
-
         public override bool Initialise()
         {
             ReadProphecies();
@@ -84,9 +81,9 @@ namespace Prophet
                     started = false;
                 }
                 if (prophetstarted == true) //beenden
-                {
+                { 
                     prophetstarted = false;
-                    LogMessage("Stopped Prophet", 5);
+                    LogMessage("Prophet stopped", 5);
                 }
                 
                 return;   //A toggelt jetzt an aus

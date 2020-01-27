@@ -101,25 +101,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Utilities\Keyboard.cs" />
-    <Compile Include="Utilities\Misc.cs" />
-    <Compile Include="Utilities\Mouse.cs" />
     <Compile Include="Prophet.cs" />
     <Compile Include="ProphetSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utilities\Stashie\BaseFilter.cs" />
-    <Compile Include="Utilities\Stashie\CustomFilter.cs" />
-    <Compile Include="Utilities\Stashie\ElderItemFiler.cs" />
-    <Compile Include="Utilities\Stashie\FilterParameterCompare.cs" />
-    <Compile Include="Utilities\Stashie\FilterParser.cs" />
-    <Compile Include="Utilities\Stashie\FilterResults.cs" />
-    <Compile Include="Utilities\Stashie\FracturedItemFiler.cs" />
-    <Compile Include="Utilities\Stashie\IdentifiedItemFilter.cs" />
-    <Compile Include="Utilities\Stashie\IIFilter.cs" />
-    <Compile Include="Utilities\Stashie\ItemData.cs" />
-    <Compile Include="Utilities\Stashie\ListIndexNode.cs" />
-    <Compile Include="Utilities\Stashie\ModValue.cs" />
-    <Compile Include="Utilities\Stashie\Refill.cs" />
-    <Compile Include="Utilities\Stashie\ShaperItemFiler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
