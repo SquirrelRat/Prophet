@@ -50,10 +50,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BouncyCastle, Version=1.8.1.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\PushBulletSharp.3.1.0\lib\portable-windows8+net45\BouncyCastle.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="ExileCore">
       <HintPath>..\..\..\..\PoeHelper\ExileCore.dll</HintPath>
       <Private>False</Private>
@@ -67,10 +63,6 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="mscorlib" />
-    <Reference Include="PushbulletSharp, Version=3.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\PushBulletSharp.3.1.0\lib\portable-windows8+net45\PushbulletSharp.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="SharpDX">
       <HintPath>..\..\..\..\PoeHelper\SharpDX.dll</HintPath>
       <Private>False</Private>
