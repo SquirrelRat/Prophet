@@ -1,31 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
-//using System.Reflection;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using ExileCore.PoEMemory.Elements.InventoryElements;
 using SharpDX;
-using SharpDX.Direct3D;
 using ExileCore.PoEMemory;
-using ExileCore.PoEMemory.Components;
-using ExileCore.PoEMemory.Elements;
 using ExileCore.PoEMemory.MemoryObjects;
-using ExileCore.Shared;
-using ExileCore.Shared.Enums;
-using ExileCore.Shared.Helpers;
-using ExileCore.Shared.Interfaces;
-using ExileCore.Shared.Nodes;
 using ExileCore;
-using ImGuiNET;
-using Util;
-using Vector4 = System.Numerics.Vector4;
-using Stack = ExileCore.PoEMemory.Components.Stack;
 
 namespace Prophet
 {
@@ -111,7 +92,7 @@ namespace Prophet
 
             if (foundprophsTrash.Count > 0)
             {
-                DrawFrame(foundprophsGood, Settings.ColorTrash);
+                DrawFrame(foundprophsTrash, Settings.ColorTrash);
             }
 
         }
