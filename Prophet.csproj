@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\PoeHelper\Plugins\Compiled\MapHelper\</OutputPath>
+    <OutputPath>..\..\..\..\PoeHelper\Plugins\Compiled\Prophet\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -51,20 +51,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ImGui.NET">
-      <HintPath>..\..\..\..\PoeHelper\ImGui.NET.dll</HintPath>
+      <HintPath>..\..\..\PoEHelper-master\ImGui.NET.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="JM.LinqFaster">
-      <HintPath>..\..\..\..\PoeHelper\JM.LinqFaster.dll</HintPath>
+      <HintPath>..\..\..\PoEHelper-master\JM.LinqFaster.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="SharpDX">
-      <HintPath>..\..\..\..\PoeHelper\SharpDX.dll</HintPath>
+      <HintPath>..\..\..\PoEHelper-master\SharpDX.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="SharpDX.Mathematics">
-      <HintPath>..\..\..\..\PoeHelper\SharpDX.Mathematics.dll</HintPath>
+      <HintPath>..\..\..\PoEHelper-master\SharpDX.Mathematics.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -88,16 +88,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Utilities\Keyboard.cs" />
     <Compile Include="Prophet.cs" />
     <Compile Include="ProphetSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Core.csproj">
