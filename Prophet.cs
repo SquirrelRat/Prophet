@@ -1,31 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
-//using System.Reflection;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using ExileCore.PoEMemory.Elements.InventoryElements;
 using SharpDX;
-using SharpDX.Direct3D;
 using ExileCore.PoEMemory;
-using ExileCore.PoEMemory.Components;
-using ExileCore.PoEMemory.Elements;
 using ExileCore.PoEMemory.MemoryObjects;
-using ExileCore.Shared;
-using ExileCore.Shared.Enums;
-using ExileCore.Shared.Helpers;
-using ExileCore.Shared.Interfaces;
-using ExileCore.Shared.Nodes;
 using ExileCore;
-using ImGuiNET;
-using Util;
-using Vector4 = System.Numerics.Vector4;
-using Stack = ExileCore.PoEMemory.Components.Stack;
 
 namespace Prophet
 {
@@ -33,122 +14,54 @@ namespace Prophet
 
     public class Prophet : BaseSettingsPlugin<ProphetSettings>
     {
+        private List<string> PropheciesListGood;
+        private List<string> PropheciesListTrash;
         private Vector2 _windowOffset;
-        private const int PixelBorder = 3;
-        Random _rnd = new Random();
-        static string logfile = "";
-        private const string MainDirectory = "prophetfiles";  //ordner
-        private string Prophecies => DirectoryFullName + "\\" + "prophecies.txt";
-        static int tickcounter = 0;
-        static List<string> PropheciesList = new List<string>();
-
-        
-
-        //Prophet
-        static bool started = false;
-        static bool prophetstarted = false;
-
+        private IngameState _ingameState;
 
         public override bool Initialise()
         {
             ReadProphecies();
 
+            _ingameState = GameController.Game.IngameState;
+            _windowOffset = GameController.Window.GetWindowRectangle().TopLeft;
+
             return true;
         }
 
-
-
-
         public override void Render()
         {
-            main();
-        }
+            if (!_ingameState.IngameUi.OpenLeftPanel.IsVisible)
+                return;
 
-
-
-
-        public void main()
-        {
-                     
-
-            if (!Keyboard.IsKeyToggled(Settings.StartProphetKey.Value))
-            {
-                //tickcounter = 0;
-
-                if (started == true) //beenden
-                {
-                    started = false;
-                }
-                if (prophetstarted == true) //beenden
-                { 
-                    prophetstarted = false;
-                    LogMessage("Prophet stopped", 5);
-                }
-                
-                return;   //A toggelt jetzt an aus
-            }
-
-            //SniperMainLoop();
-            ProphetMainLoop();
-
-
-        }
-
-
-        private void ProphetMainLoop()
-        {
-            if (prophetstarted == false)
-            {
-                prophetstarted = true;
-                LogMessage("Prothet started", 5);
-
-            }
-            //
-
-            ProphMainLoop();
-
-        }
-            
-
-
-        private void ProphMainLoop()
-        {
             GotProphecies();
-            
-            
         }
 
-        private bool GotProphecies()
+
+        private void GotProphecies()
         {
-            //LogMessage("runs", 1);
-            var leftpanelopen = GameController.Game.IngameState.IngameUi.OpenLeftPanel.IsVisible;
+            //
+            var ProphecyPanel = _ingameState.IngameUi.OpenLeftPanel.GetChildAtIndex(2)?.GetChildAtIndex(0)?.GetChildAtIndex(1)?.GetChildAtIndex(1)?.GetChildAtIndex(32)?.GetChildAtIndex(0)?.GetChildAtIndex(0);
 
-            if (!leftpanelopen) return false;
+            if ((ProphecyPanel == null) || (!ProphecyPanel.IsVisible)) 
+                return;
 
-            var ProphecyPanel = GameController.Game.IngameState.IngameUi.OpenLeftPanel.GetChildAtIndex(2)?.GetChildAtIndex(0)?.GetChildAtIndex(1)?.GetChildAtIndex(1)?.GetChildAtIndex(32)?.GetChildAtIndex(0)?.GetChildAtIndex(0);
+            if (ProphecyPanel.ChildCount <= 0) 
+                return;
 
-            if ((ProphecyPanel == null) || (!ProphecyPanel.IsVisible)) return false;
-
-            if (ProphecyPanel.ChildCount <= 0) return false;
-
-            var foundprophs = new List<RectangleF>();
-
+            var foundprophsGood = new List<RectangleF>();
+            var foundprophsTrash = new List<RectangleF>();
 
             foreach (Element element in ProphecyPanel.Children)
             {
-
-
                 if (element == null)
-                {
                     continue;
-                }
 
                 var textelement = element.GetChildAtIndex(0).GetChildAtIndex(1);
                 var text = element.GetChildAtIndex(0).GetChildAtIndex(1).Text;
 
-                if (PropheciesList.Contains(text))
+                if (PropheciesListGood.Contains(text))
                 {
-
                     var drawRect = textelement.GetClientRect();
                     drawRect.Left -= 5;
                     drawRect.Right += 5;
@@ -156,64 +69,86 @@ namespace Prophet
                     drawRect.Bottom += 5;
                     drawRect.X -= 5;
                     drawRect.Y -= 5;
-                    foundprophs.Add(drawRect);
+                    foundprophsGood.Add(drawRect);
                 }
-                //if (element.ChildCount != 3) continue;  //kein invite wenn nicht 3 children; andrer nachricht - left party, etc
 
-
+                if (PropheciesListTrash.Contains(text))
+                {
+                    var drawRect = textelement.GetClientRect();
+                    drawRect.Left -= 5;
+                    drawRect.Right += 5;
+                    drawRect.Top -= 5;
+                    drawRect.Bottom += 5;
+                    drawRect.X -= 5;
+                    drawRect.Y -= 5;
+                    foundprophsTrash.Add(drawRect);
+                }
             }
 
-            if (foundprophs.Count > 0)
+            if (foundprophsGood.Count > 0)
             {
-                DrawFrame(foundprophs, 1);
-                return true;
+                DrawFrame(foundprophsGood, Settings.ColorGood);
             }
-            else return false;
-                       
+
+            if (foundprophsTrash.Count > 0)
+            {
+                DrawFrame(foundprophsTrash, Settings.ColorTrash);
+            }
+
         }
 
-        private bool InHO()
+        private void DrawFrame(List<RectangleF> Prophs, Color color)
         {
-            if (GameController.Game.IngameState.Data.CurrentWorldArea.ToString().ToLower().Contains("hideout"))
-            {
-                return true;
-            }
-            else return false;
-        }
-
-        private void DrawFrame(List<RectangleF> goodProphs, int color)
-        {
-            Color farbe;
-            if (color == 1) farbe = Color.Yellow;
-            else farbe = Color.Yellow;
-
-            foreach (var position in goodProphs)
-
+            foreach (var position in Prophs)
             {
                 RectangleF border = new RectangleF { X = position.X + 8, Y = position.Y + 8, Width = position.Width - 6, Height = position.Height - 6 };
-                Graphics.DrawFrame(border, farbe, 3);
+                Graphics.DrawFrame(border, color, 3);
             }
         }
 
         private void ReadProphecies()
         {
-            PropheciesList.Clear();
+            PropheciesListGood = new List<string>();
+            PropheciesListTrash = new List<string>();
 
-            if (File.Exists(Prophecies))
+            string pathPropGood = Path.Combine( DirectoryFullName ,"prophecies_good.txt");
+            string pathPropTrash = Path.Combine( DirectoryFullName , "prophecies_bad.txt");
+
+            CheckConfig(pathPropGood);
+
+            using (StreamReader reader = new StreamReader(pathPropGood))
             {
-                var lines = File.ReadAllLines(Prophecies);
-                PropheciesList.AddRange(lines);
-                LogMessage("Prophecies geladen", 5);
-            }
-            else
-            {
-                //die datei erstellen
-                LogMessage("keine prophecies file da", 5);
+                string text = reader.ReadToEnd();
+
+                PropheciesListGood = text.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                reader.Close();
             }
 
+            CheckConfig(pathPropTrash);
+
+            using (StreamReader reader = new StreamReader(pathPropTrash))
+            {
+                string text = reader.ReadToEnd();
+
+                PropheciesListTrash = text.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                reader.Close();
+            }
         }
 
+        private void CheckConfig(string path)
+        {
+            if (File.Exists(path)) return;
 
+            string text = "";
+
+            using (StreamWriter streamWriter = new StreamWriter(path, true))
+            {
+                streamWriter.Write(text);
+                streamWriter.Close();
+            }
+        }
 
     }
 }
