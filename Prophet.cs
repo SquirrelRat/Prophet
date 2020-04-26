@@ -31,7 +31,7 @@ namespace Prophet
 
         public override void Render()
         {
-            if (!_ingameState.IngameUi.OpenLeftPanel.IsVisible)
+            if (!_ingameState.IngameUi.OpenRightPanel.IsVisible)
                 return;
 
             GotProphecies();
@@ -41,12 +41,11 @@ namespace Prophet
         private void GotProphecies()
         {
             //
-            var ProphecyPanel = _ingameState.IngameUi.OpenLeftPanel.GetChildAtIndex(2)?.GetChildAtIndex(0)?.GetChildAtIndex(1)?.GetChildAtIndex(1)?.GetChildAtIndex(32)?.GetChildAtIndex(0)?.GetChildAtIndex(0);
-
-            if ((ProphecyPanel == null) || (!ProphecyPanel.IsVisible)) 
+            var ProphecyPanel = _ingameState.IngameUi.OpenRightPanel.GetChildAtIndex(2)?.GetChildAtIndex(0)?.GetChildAtIndex(1)?.GetChildAtIndex(1)?.GetChildAtIndex(33)?.GetChildAtIndex(0)?.GetChildAtIndex(0);
+            if ((ProphecyPanel == null) || (!ProphecyPanel.IsVisible))
                 return;
 
-            if (ProphecyPanel.ChildCount <= 0) 
+            if (ProphecyPanel.ChildCount <= 0)
                 return;
 
             var foundprophsGood = new List<RectangleF>();
@@ -111,8 +110,8 @@ namespace Prophet
             PropheciesListGood = new List<string>();
             PropheciesListTrash = new List<string>();
 
-            string pathPropGood = Path.Combine( DirectoryFullName ,"prophecies_good.txt");
-            string pathPropTrash = Path.Combine( DirectoryFullName , "prophecies_bad.txt");
+            string pathPropGood = Path.Combine(DirectoryFullName, "prophecies_good.txt");
+            string pathPropTrash = Path.Combine(DirectoryFullName, "prophecies_bad.txt");
 
             CheckConfig(pathPropGood);
 
